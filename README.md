@@ -7,13 +7,13 @@
 
 ## Descripción
 
-En este repositorio encontrareis una lista de playbooks completamente funcionales y listos para ser ejecutados para montar y configurar un entorno de tranajo.
+En este repositorio encontraréis una lista de playbooks completamente funcional y listos para ser ejecutados para montar y configurar un entorno de trabajo.
 
-Este entorno esta basado en mis necesidades por lo que las aplicaciones y softwares que se instalaran y configuran seran los mios.
+Este entorno está basado en mis necesidades, por lo que las aplicaciones y software que se instalaran y configuran serán los míos.
 
-En el caso de que quieras siempre puedes agregar los tuyos propios o modificar los playbooks.
+En el caso de que quieras, siempre puedes agregar los tuyos propios o modificar los playbooks.
 
-Es importante que antes de que ejecutes los playbooksmodifique el archivo de variblaes en `/variables/variables.ylm`
+Es importante que antes de que ejecutes los playbooks modifique el archivo de variables en `/variables/variables.ylm`
 
 ## Ejecución
 
