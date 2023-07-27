@@ -1,0 +1,6 @@
+---
+
+  - import_playbook: ./playbooks/basic-config.yml
+  - import_playbook: ./playbooks/tools-install.yml
+  - import_playbook: ./playbooks/tools-config.yml
+  - import_playbook: ./playbooks/custom-system.yml

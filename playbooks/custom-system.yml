@@ -1,0 +1,14 @@
+- name: Configuraciones básicas
+  hosts: 192.168.1.139
+  become: true
+  tasks:
+  - name: Importando variables de configuración
+    ansible.builtin.include_vars:
+      ../variables/variables.yml
+
+
+  - name: Descargar el repositorio Wallpapers desde GitHub
+    ansible.builtin.git:
+      repo: https://github.com/antoniosarosi/Wallpapers.git
+      dest: "/home/{{ USERNAME }}/Imágenes/Fondos"
+      clone: yes

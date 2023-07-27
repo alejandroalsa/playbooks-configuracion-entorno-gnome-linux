@@ -1,0 +1,101 @@
+- name: Configuraciones básicas
+  hosts: 192.168.1.139
+  become: true
+  tasks:
+
+  - name: Importando variables de configuración
+    ansible.builtin.include_vars:
+      ../variables/variables.yml
+
+  - name: Instación de paquetes básicos
+    ansible.builtin.apt:
+      name:
+        - zip
+        - unzip
+        - tree
+        - net-tools
+        - iftop
+        - git
+        - neofetch
+        - wget
+        - gpg
+        - curl
+        - cmatrix
+        - docker.io
+        # - php
+        - composer
+        - python3
+        - nodejs
+        - npm
+        - libreoffice
+        - filezilla
+        - owncloud-client
+        - virtualbox
+        - obs-studio
+        - apt-transport-https
+        - ruby-rubygems
+        - firefox
+        - wireguard
+      state: present
+    ignore_errors: yes
+
+
+  - name: Descargar Thunderbird
+    ansible.builtin.get_url:
+      url: "https://download.mozilla.org/?product=thunderbird-115.0.1-SSL&os=linux64&lang=es-ES"
+      dest: "/etc/thunderbird-115.0.1.tar.bz2"
+      mode: '0644'
+
+  - name: Descomprimir el archivo
+    ansible.builtin.unarchive:
+      src: "/etc/thunderbird-115.0.1.tar.bz2"
+      dest: "/etc/"
+      remote_src: yes
+      creates: "/etc/thunderbird-115.0.1/"
+      
+  - name: Eliminar el archivo comprimido
+    ansible.builtin.file:
+      path: "/etc/thunderbird-115.0.1.tar.bz2"
+      state: absent
+
+  - name: Crear directorio para icono de aplicación Thunderbird
+    ansible.builtin.file:
+      path: "/home/{{ USERNAME }}/.local/share/{{ item }}"
+      state: directory
+    with_items:
+      - application
+    ignore_errors: yes
+
+  - name: Añadir aplicacion de Thunderbird
+    ansible.builtin.template:
+      src: ../templates/thunderbird.desktop.j2
+      dest: /home/{{ USERNAME }}/.local/share/applications/thunderbird.desktop
+      mode: 0755
+
+  - name: Descargar archivo microsoft.asc
+    shell: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
+    args:
+      creates: /tmp/packages.microsoft.gpg
+
+    
+  - name: Descargar archivo microsoft.asc
+    shell: wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
+    args:
+      creates: /tmp/packages.microsoft.gpg
+
+  - name: Mover el archivo microsoft.asc al directorio /etc/apt/keyrings/
+    shell: sudo install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+
+  - name: Agregar el repositorio de VSCode
+    shell: sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+
+  - name: Actualización de repositorios
+    apt:
+      update_cache: yes
+    become: yes
+
+  - name: Instalación de VSCODE
+    shell: apt install code
+
+  - name: Instalación de Spotify
+    shell: snap install spotify

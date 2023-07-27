@@ -1,0 +1,8 @@
+[192.168.1.139]
+192.168.1.139
+
+[all:vars]
+ansible_user=test
+ansible_password=test
+ansible_port=22
+ansible_become_pass=test

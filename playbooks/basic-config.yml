@@ -1,0 +1,37 @@
+- name: Configuraciones básicas
+  hosts: 192.168.1.139
+  become: true
+  tasks:
+  - name: Importando variables de configuración
+    ansible.builtin.include_vars:
+      ../variables/variables.yml
+
+  - name: Actualización de repositorios
+    apt:
+      update_cache: true
+
+  - name: Crear directorios desarrollo
+    ansible.builtin.file:
+      path: "/home/{{ USERNAME }}/{{ item }}"
+      state: directory
+    with_items:
+      - Dev
+      - Lab
+    ignore_errors: yes
+
+  - name: Crear directorios cloud
+    ansible.builtin.file:
+      path: "/home/{{ USERNAME }}/{{ item }}"
+      state: directory
+    with_items:
+      - DIWES-CLOUD
+      - AAS-CLOUD
+    ignore_errors: yes
+
+  - name: Crear directorios videos
+    ansible.builtin.file:
+      path: "/home/{{ USERNAME }}/Vídeos/{{ item }}"
+      state: directory
+    with_items:
+      - Capturas
+    ignore_errors: yes

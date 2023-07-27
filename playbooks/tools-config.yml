@@ -1,0 +1,15 @@
+- name: Configuraciones básicas
+  hosts: 192.168.1.139
+  become: true
+  tasks:
+
+  - name: Importando variables de configuración
+    ansible.builtin.include_vars:
+      ../variables/variables.yml
+
+  - name: Añadir aplicacion de Thunderbird
+    ansible.builtin.template:
+      src: ../templates/thunderbird.desktop.j2
+      dest: /home/{{ USERNAME }}/.local/share/applications/thunderbird.desktop
+      mode: 0755
+
